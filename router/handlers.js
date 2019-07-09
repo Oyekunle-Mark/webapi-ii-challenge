@@ -32,7 +32,27 @@ async function getPostById(req, res) {
   }
 }
 
+async function createPost(req, res) {
+  const { contents, title } = req.body;
+
+  if (!title || !contents)
+    return res.status(400).json({
+      errorMessage: 'Please provide title and contents for the post.',
+    });
+
+  try {
+    const post = Posts.insert({ contents, title });
+
+    res.status(201).json({ contents, title });
+  } catch (err) {
+    res.status(500).json({
+      error: 'There was an error while saving the post to the database',
+    });
+  }
+}
+
 module.exports = {
   getAllPosts,
   getPostById,
+  createPost,
 };
