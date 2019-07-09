@@ -1,4 +1,5 @@
 const express = require('express');
+const cors = require('cors');
 
 const postRouter = require('./router');
 
@@ -6,6 +7,7 @@ const server = express();
 const PORT = 5000;
 
 server.use(express.json());
+server.use(cors());
 server.use('/api/posts', postRouter);
 
 server.use((req, res) =>
