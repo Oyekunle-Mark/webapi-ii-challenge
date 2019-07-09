@@ -1,9 +1,12 @@
 const express = require('express');
 
+const postRouter = require('./router');
+
 const server = express();
 const PORT = 5000;
 
 server.use(express.json());
+server.use('/api/posts', postRouter);
 
 server.use((req, res) =>
   res.status(404).json({
