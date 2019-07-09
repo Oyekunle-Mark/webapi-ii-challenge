@@ -1,5 +1,6 @@
 const express = require('express');
 const cors = require('cors');
+const logger = require('morgan');
 
 const postRouter = require('./router');
 
@@ -8,6 +9,7 @@ const PORT = 5000;
 
 server.use(express.json());
 server.use(cors());
+server.use(logger('dev'));
 server.use('/api/posts', postRouter);
 
 server.use((req, res) =>
