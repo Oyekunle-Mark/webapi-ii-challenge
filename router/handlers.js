@@ -51,8 +51,33 @@ async function createPost(req, res) {
   }
 }
 
+async function createComment(req, res) {
+  const { id } = req.params;
+  const { text } = req.body;
+
+  if (!text)
+    return res
+      .status(400)
+      .json({ errorMessage: 'Please provide text for the comment.' });
+  try {
+    const comment = await Posts.insertComment({ text, post_id: id });
+
+    if (!comment)
+      return res
+        .status(404)
+        .json({ message: 'The post with the specified ID does not exist.' });
+
+    res.status(201).json({ id: comment.id, text });
+  } catch (err) {
+    res.status(500).json({
+      error: 'There was an error while saving the comment to the database',
+    });
+  }
+}
+
 module.exports = {
   getAllPosts,
   getPostById,
   createPost,
+  createComment,
 };
