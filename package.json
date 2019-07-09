@@ -5,7 +5,7 @@
   "private": true,
   "main": "index.js",
   "scripts": {
-    "server": "nodemon index.js"
+    "server": "nodemon cluster.js"
   },
   "dependencies": {
     "compression": "^1.7.4",
