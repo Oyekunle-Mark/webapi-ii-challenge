@@ -1,11 +1,12 @@
-const postHandler = require('express').Router();
+const postRouter = require('express').Router();
 
 const handlers = require('./handlers');
 
-postHandler.get('/', handlers.getAllPosts);
-postHandler.get('/:id', handlers.getPostById);
-postHandler.post('/', handlers.createPost);
-postHandler.post('/:id/comments', handlers.createComment);
-postHandler.get('/:id/comments', handlers.getPostComments);
+postRouter.get('/', handlers.getAllPosts);
+postRouter.get('/:id', handlers.getPostById);
+postRouter.post('/', handlers.createPost);
+postRouter.post('/:id/comments', handlers.createComment);
+postRouter.get('/:id/comments', handlers.getPostComments);
+postRouter.delete('/:id', handlers.deletePost);
 
-module.exports = postHandler;
+module.exports = postRouter;

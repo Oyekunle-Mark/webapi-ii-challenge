@@ -94,10 +94,44 @@ async function getPostComments(req, res) {
   }
 }
 
+async function deletePost(req, res) {
+  const { id } = req.params;
+
+  try {
+    let post;
+
+    try {
+      post = await Posts.findById(id);
+
+      if (!post.length) {
+        return res
+          .status(404)
+          .json({ message: 'The post with the specified ID does not exist.' });
+      }
+    } catch (err) {
+      res
+        .status(500)
+        .json({ error: 'The posts information could not be retrieved.' });
+    }
+
+    const deletedPost = await Posts.remove(id);
+
+    if (!deletedPost)
+      return res
+        .status(404)
+        .json({ message: 'The post with the specified ID does not exist.' });
+
+    res.status(200).json(post);
+  } catch (err) {
+    res.status(500).json({ error: 'The post could not be removed' });
+  }
+}
+
 module.exports = {
   getAllPosts,
   getPostById,
   createPost,
   createComment,
   getPostComments,
+  deletePost,
 };
