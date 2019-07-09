@@ -8,5 +8,6 @@ postRouter.post('/', handlers.createPost);
 postRouter.post('/:id/comments', handlers.createComment);
 postRouter.get('/:id/comments', handlers.getPostComments);
 postRouter.delete('/:id', handlers.deletePost);
+postRouter.put('/:id', handlers.editPost);
 
 module.exports = postRouter;

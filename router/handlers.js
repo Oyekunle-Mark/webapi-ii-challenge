@@ -127,6 +127,47 @@ async function deletePost(req, res) {
   }
 }
 
+async function editPost(req, res) {
+  const { id } = req.params;
+  const { contents, title } = req.body;
+
+  if (!title || !contents)
+    return res.status(400).json({
+      errorMessage: 'Please provide title and contents for the post.',
+    });
+
+  try {
+    const editedPost = await Posts.update(id, { contents, title });
+
+    if (!editedPost)
+      return res
+        .status(404)
+        .json({ message: 'The post with the specified ID does not exist.' });
+
+    let newEditedPost;
+
+    try {
+      newEditedPost = await Posts.findById(id);
+
+      if (!newEditedPost.length) {
+        return res
+          .status(404)
+          .json({ message: 'The post with the specified ID does not exist.' });
+      }
+    } catch (err) {
+      res
+        .status(500)
+        .json({ error: 'The posts information could not be retrieved.' });
+    }
+
+    res.status(200).json(newEditedPost);
+  } catch (err) {
+    res
+      .status(500)
+      .json({ error: 'The post information could not be modified.' });
+  }
+}
+
 module.exports = {
   getAllPosts,
   getPostById,
@@ -134,4 +175,5 @@ module.exports = {
   createComment,
   getPostComments,
   deletePost,
+  editPost,
 };
