@@ -41,9 +41,9 @@ async function createPost(req, res) {
     });
 
   try {
-    const post = Posts.insert({ contents, title });
+    const post = await Posts.insert({ contents, title });
 
-    res.status(201).json({ contents, title });
+    res.status(201).json({ id: post.id, contents, title });
   } catch (err) {
     res.status(500).json({
       error: 'There was an error while saving the post to the database',
